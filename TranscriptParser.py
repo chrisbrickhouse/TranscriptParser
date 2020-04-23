@@ -218,7 +218,12 @@ class TranscriberTranscriptFile(TranscriptFile):
 def main(limit=0):
 	global inDir
 	global outType
-	transcriptFiles = os.listdir(inDir)
+	global listPath
+	if listPath:
+		with open(listPath) as f:
+			transcriptFiles = f.readlines()
+	else:
+		transcriptFiles = os.listdir(inDir)
 	limitCounter = 0
 	for fname in transcriptFiles:
 		print(fname)
@@ -284,10 +289,21 @@ if __name__ == "__main__":
 		type=str,
 		default="9000"
 	)
+	argparser.add_argument(
+		"-l",
+		"--list",
+		help="Path to a file containing a list of items to parse."
+	)
 	args = argparser.parse_args()
 	inDir = args.input
 	outDir = args.output
 	nlpURL = args.url+":"+args.port
+	listPath = None
+	if args.list:
+		if not os.path.isfile(args.list):
+			raise FileNotFoundError()
+		else:
+			listPath = args.list
 	if not os.path.isdir(inDir):
 		raise NotADirectoryError(inDir)
 	if not os.path.isdir(outDir):
