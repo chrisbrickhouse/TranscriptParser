@@ -1,4 +1,4 @@
-# Transcript Parser 0.2.0
+# Transcript Parser 0.3.0
 
 Transcript parser is a python script to convert XML transcript files into human
 readable, plain text transcripts along with optional Part of Speech tagging. It
